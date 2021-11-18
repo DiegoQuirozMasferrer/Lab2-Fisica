@@ -1,0 +1,4 @@
+Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"D:/UTalca/2020/2020-2/Fisica/Projects/MotorFisico3D/Content/sphere.fbx","D:/UTalca/2020/2020-2/Fisica/Projects/MotorFisico3D/Content/bin/Windows/sphere.xnb","ModelProcessor","ModelContent",51836,70160,1,276939
+"D:/UTalca/2020/2020-2/Fisica/Projects/MotorFisico3D/Content/sphere2.fbx","D:/UTalca/2020/2020-2/Fisica/Projects/MotorFisico3D/Content/bin/Windows/sphere2.xnb","ModelProcessor","ModelContent",42204,69925,0,021829
+"D:/UTalca/2020/2020-2/Fisica/Projects/MotorFisico3D/Content/sphereMaterial.png","D:/UTalca/2020/2020-2/Fisica/Projects/MotorFisico3D/Content/bin/Windows/sphereMaterial.xnb","TextureProcessor","Texture2DContent",85476,4194389,0,1145334

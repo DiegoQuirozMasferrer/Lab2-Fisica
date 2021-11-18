@@ -9,6 +9,7 @@ namespace MotorFisico3D
 {
     public class Esfera
     {
+        public string name = "";
         public Vector3 pos;
         public Vector3 vel;
         private Vector3 lastVel;
@@ -18,8 +19,9 @@ namespace MotorFisico3D
         public Color color;
         public bool estatico;
 
-        public Esfera(ContentManager Content, Vector3 posInicial, float radio)
+        public Esfera(ContentManager Content, Vector3 posInicial, float radio, string name)
         {
+            this.name = name;
             color = Color.White;
             if (ball == null)
             {
@@ -44,7 +46,7 @@ namespace MotorFisico3D
             }
             lastVel = vel;
         }
-        public void Draw(Matrix view, Matrix projection, Vector3 PosCamara)
+        public void Draw(Matrix view, Matrix projection)
         {
             foreach (var mesh in ball.Meshes)
             {
@@ -52,7 +54,7 @@ namespace MotorFisico3D
                 {
                     effect.Projection = projection;
                     effect.View = view;
-                    effect.World = Matrix.CreateRotationY(MathHelper.Pi / 2) * Matrix.CreateRotationZ(MathHelper.Pi / 2)* Matrix.CreateScale(radio) * Matrix.CreateTranslation(pos-PosCamara);
+                    effect.World = Matrix.CreateRotationY(MathHelper.Pi / 2) * Matrix.CreateRotationZ(MathHelper.Pi / 2)* Matrix.CreateScale(radio) * Matrix.CreateTranslation(pos);
                     effect.EnableDefaultLighting();
                     //effect.TextureEnabled = true;
                     effect.DiffuseColor = color.ToVector3();

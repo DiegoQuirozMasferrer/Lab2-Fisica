@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -31,11 +32,13 @@ namespace MotorFisico3D
         List<Esfera> pelotas = new List<Esfera>();
         public Esfera player;
         public bool isPDown;
-        public bool Pause;
+        public bool Pause = true;
 
-        Vector3 PosCamara;
+        Vector3 PosCamara = new Vector3(0,0,-15);
 
         public Model cube;
+
+        List<string> CollisionList = new List<string>();
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -49,7 +52,7 @@ namespace MotorFisico3D
 
             projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, GraphicsDevice.Viewport.AspectRatio, 0.1f, 200f);
             // for orthografic Matrix.CreateOrthographicOffCenter(-4, 4, -4/GraphicsDevice.Viewport.AspectRatio, 4/ GraphicsDevice.Viewport.AspectRatio, 0.1f, 2000);// 
-            view = Matrix.CreateLookAt(new Vector3(0, 0, -15), Vector3.Forward, Vector3.Up);
+            view = Matrix.CreateLookAt(PosCamara, Vector3.Zero, Vector3.Up);
 
             verts = new VertexPositionColor[8]
             {
@@ -79,10 +82,10 @@ namespace MotorFisico3D
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            player = new Esfera(Content, new Vector3(0, 0, 0), .3f);
+            player = new Esfera(Content, new Vector3(0, 0, 0), .3f, "Player");
             pelotas.Add(player);
-            pelotas.Add(new Esfera(Content, new Vector3(1, 0, 0), .5f));
-            pelotas.Add(new Esfera(Content, new Vector3(-1, 0, 0), .5f));
+            pelotas.Add(new Esfera(Content, new Vector3(1, 0, 0), .5f,"Quietita"));
+            pelotas.Add(new Esfera(Content, new Vector3(-1, 0, 0), .5f, "Botadora"));
             pelotas[1].estatico = true;
             cube = Content.Load<Model>("CUBO");
 
@@ -101,10 +104,20 @@ namespace MotorFisico3D
                 }
                 if (pelotas[i].vel.Y > 0 && posi.Y + radioi > BoxLimits.Y || pelotas[i].vel.Y < 0 && posi.Y - radioi < -BoxLimits.Y)
                 {
+                    if (pelotas[i] == player)
+                    {
+                        Pause = true;
+                        Debug.WriteLine("Colisiones:");
+                        foreach(string s in CollisionList)
+                        {
+                            Debug.WriteLine(s);
+                        }
+                        CollisionList = new List<string>();
+                    }
                     pelotas[i].vel.Y *= -1;
                 }
                 if (pelotas[i].vel.Z > 0 && posi.Z + radioi > BoxLimits.Z || pelotas[i].vel.Z < 0 && posi.Z - radioi < -BoxLimits.Z)
-                {
+                {                    
                     pelotas[i].vel.Z *= -1;
                 }
                 //chocar con otras esferas
@@ -125,32 +138,50 @@ namespace MotorFisico3D
         }
         public void collide(Esfera pelotasA, Esfera pelotasB)
         {
+            bool TrueCollision = false;
             float radioi = pelotasA.radio;
             float radioj = pelotasB.radio;
             Vector3 posi = pelotasA.pos;
             if ((pelotasA.vel.X > 0 && posi.X + radioi > pelotasB.pos.X - radioj && posi.X + radioi< pelotasB.pos.X)                 
                 || (pelotasA.vel.X < 0 && posi.X - radioi < pelotasB.pos.X + radioj && posi.X - radioi > pelotasB.pos.X))
-            {                
+            {
+                TrueCollision = true;
                 pelotasB.vel.X += pelotasA.vel.X * 0.5f;
                 pelotasA.vel.X *= -0.5f;
             }
             if ((pelotasA.vel.Y > 0 && posi.Y + radioi > pelotasB.pos.Y - radioj && posi.Y + radioi < pelotasB.pos.Y)                 
                 || (pelotasA.vel.Y < 0 && posi.Y - radioi < pelotasB.pos.Y + radioj && posi.Y - radioi > pelotasB.pos.Y)
                 )
-            {                
+            {
+                TrueCollision = true;
                 pelotasB.vel.Y += pelotasA.vel.Y * 0.5f;
                 pelotasA.vel.Y *= -0.5f;
             }
             if ((pelotasA.vel.Z > 0 && posi.Z + radioi > pelotasB.pos.Z - radioj && posi.Z + radioi < pelotasB.pos.Z) 
                 || (pelotasA.vel.Z < 0 && posi.Z - radioi < pelotasB.pos.Z + radioj && posi.Z - radioi > pelotasB.pos.Z)
                 )
-            {                
+            {
+                TrueCollision = true;
                 pelotasB.vel.Z += pelotasA.vel.Z * 0.5f;
                 pelotasA.vel.Z *= -0.5f;
+            }
+            if (TrueCollision)
+            {
+                if (pelotasA == player)
+                {
+                    CollisionList.Add(pelotasB.name);
+                }
+                else if (pelotasB == player)
+                {
+                    CollisionList.Add(pelotasA.name);
+                }
             }
         }
         protected override void Update(GameTime gameTime)
         {
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            view = Matrix.CreateLookAt(PosCamara, player.pos, Vector3.Up);
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
@@ -168,10 +199,45 @@ namespace MotorFisico3D
             }
             if (Pause)
             {
+                if (Keyboard.GetState().IsKeyDown(Keys.X))
+                {
+                    if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
+                    {
+                        player.vel.X -= deltaTime*10;
+                    }
+                    else
+                    {
+                        player.vel.X += deltaTime * 10;
+
+                    }
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.Y))
+                {
+                    if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
+                    {
+                        player.vel.Y -= deltaTime * 10;
+                    }
+                    else
+                    {
+                        player.vel.Y += deltaTime * 10;
+
+                    }
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.Z))
+                {
+                    if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
+                    {
+                        player.vel.Z -= deltaTime * 10;
+                    }
+                    else
+                    {
+                        player.vel.Z += deltaTime * 10;
+
+                    }
+                }
                 return;
             }
-            // TODO: Add your update logic here
-            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            
 
             rotY += deltaTime;
 
@@ -181,68 +247,30 @@ namespace MotorFisico3D
             {
                 return;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.L))
+            Vector3 DirCameraPlayer = (player.pos - PosCamara);
+            DirCameraPlayer.Normalize();
+            if (Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                PosCamara.Z -= deltaTime;
+                
+                PosCamara -= DirCameraPlayer*deltaTime*20;
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.K))
+            else if (Keyboard.GetState().IsKeyDown(Keys.W))
             {
-                PosCamara.Z += deltaTime;
+                PosCamara += DirCameraPlayer * deltaTime*20;
             }
-
-            if (!launched)
+            if (Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.X))
+                float rotDir = 1;
+                if (Keyboard.GetState().IsKeyDown(Keys.D))
                 {
-                    if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
-                    {
-                        player.vel.X -= deltaTime;
-                    }
-                    else
-                    {
-                        player.vel.X += deltaTime;
-
-                    }
+                    rotDir = -1;
                 }
-                if (Keyboard.GetState().IsKeyDown(Keys.Y))
-                {
-                    if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
-                    {
-                        player.vel.Y -= deltaTime;
-                    }
-                    else
-                    {
-                        player.vel.Y += deltaTime;
-
-                    }
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.Z))
-                {
-                    if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
-                    {
-                        player.vel.Z -= deltaTime;
-                    }
-                    else
-                    {
-                        player.vel.Z += deltaTime;
-
-                    }
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.Enter))
-                {
-                    launched = true;
-                }
-            }
-            
-            /*if (launched)
-            {
-                posBall += Velocity * deltaTime;
-                Velocity += Gravity*deltaTime;
-                if(posBall.Y <= 0)
-                {
-                    launched = false;
-                }
-            }*/
+                Vector2 temPos = new Vector2(PosCamara.X, PosCamara.Z);
+                temPos = Rotar(temPos, rotDir*deltaTime*100);
+                PosCamara.X = temPos.X;
+                PosCamara.Z = temPos.Y;
+                
+            }                      
 
             foreach(Esfera e in pelotas)
             {                
@@ -264,7 +292,7 @@ namespace MotorFisico3D
             //GraphicsDevice.RasterizerState = RasterizerState.CullClockwise;
             effect.Projection = projection;
             effect.View = view;
-            effect.World = Matrix.Identity * Matrix.CreateRotationY(0) * Matrix.CreateTranslation(position-PosCamara);
+            effect.World = Matrix.Identity * Matrix.CreateRotationY(0) * Matrix.CreateTranslation(position);
             effect.VertexColorEnabled = true;
 
             List<VertexPositionColor[]> Vertices = new List<VertexPositionColor[]>();
@@ -293,7 +321,7 @@ namespace MotorFisico3D
 
             foreach(Esfera e in pelotas)
             {
-                e.Draw(view, projection, PosCamara);
+                e.Draw(view, projection);
             }
             /*foreach (var mesh in cube.Meshes)
             {
@@ -311,6 +339,18 @@ namespace MotorFisico3D
                 mesh.Draw();
             }*/
             base.Draw(gameTime);
+        }
+        public static Vector2 Rotar(Vector2 v, float degrees)
+        {
+            degrees = (degrees / 360) * MathF.PI * 2;
+            float sin = MathF.Sin(degrees);
+            float cos = MathF.Cos(degrees);
+
+            float tx = v.X;
+            float ty = v.Y;
+            v.X = (cos * tx) - (sin * ty);
+            v.Y = (sin * tx) + (cos * ty);
+            return v;
         }
     }
 }
