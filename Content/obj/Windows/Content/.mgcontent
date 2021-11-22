@@ -4,12 +4,14 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>D:/Descargas/20211117Ejemplo_MotorFisico3D/Content/CUBO.fbx</File>
-    <File>D:/Descargas/20211117Ejemplo_MotorFisico3D/Content/sphere.fbx</File>
-    <File>D:/Descargas/20211117Ejemplo_MotorFisico3D/Content/sphere2.fbx</File>
-    <File>D:/Descargas/20211117Ejemplo_MotorFisico3D/Content/sphereMaterial.png</File>
+    <File>C:/Users/rodri/OneDrive/Documentos/GitHub/Lab2-Fisica/Content/CUBO.fbx</File>
+    <File>C:/Users/rodri/OneDrive/Documentos/GitHub/Lab2-Fisica/Content/File.spritefont</File>
+    <File>C:/Users/rodri/OneDrive/Documentos/GitHub/Lab2-Fisica/Content/sphere.fbx</File>
+    <File>C:/Users/rodri/OneDrive/Documentos/GitHub/Lab2-Fisica/Content/sphere2.fbx</File>
+    <File>C:/Users/rodri/OneDrive/Documentos/GitHub/Lab2-Fisica/Content/sphereMaterial.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

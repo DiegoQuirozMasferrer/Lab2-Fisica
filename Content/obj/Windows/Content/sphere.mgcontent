@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>D:/Descargas/20211117Ejemplo_MotorFisico3D/Content/sphere.fbx</SourceFile>
-  <SourceTime>2020-11-04T22:48:43.5085488-03:00</SourceTime>
-  <DestFile>D:/Descargas/20211117Ejemplo_MotorFisico3D/Content/bin/Windows/Content/sphere.xnb</DestFile>
-  <DestTime>2021-11-18T17:35:23.7992026-03:00</DestTime>
+  <SourceFile>C:/Users/rodri/OneDrive/Documentos/GitHub/Lab2-Fisica/Content/sphere.fbx</SourceFile>
+  <SourceTime>2021-11-18T18:58:11.826753-03:00</SourceTime>
+  <DestFile>C:/Users/rodri/OneDrive/Documentos/GitHub/Lab2-Fisica/Content/bin/Windows/Content/sphere.xnb</DestFile>
+  <DestTime>2021-11-18T19:16:34.9955139-03:00</DestTime>
   <Importer>FbxImporter</Importer>
-  <ImporterTime>2020-08-10T12:17:54-04:00</ImporterTime>
+  <ImporterTime>2020-08-10T16:17:54-04:00</ImporterTime>
   <Processor>ModelProcessor</Processor>
-  <ProcessorTime>2020-08-10T12:17:54-04:00</ProcessorTime>
+  <ProcessorTime>2020-08-10T16:17:54-04:00</ProcessorTime>
   <Parameters>
     <Key>ColorKeyColor</Key>
     <Value>0,0,0,0</Value>
@@ -66,7 +66,7 @@
   </Parameters>
   <Dependencies />
   <BuildAsset>
-    <string>D:/Descargas/20211117Ejemplo_MotorFisico3D/Content/bin/Windows/Content/sphereMaterial_0.xnb</string>
+    <string>C:/Users/rodri/OneDrive/Documentos/GitHub/Lab2-Fisica/Content/bin/Windows/Content/sphereMaterial_0.xnb</string>
   </BuildAsset>
   <BuildOutput />
 </PipelineBuildEvent>

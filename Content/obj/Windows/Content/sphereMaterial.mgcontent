@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>D:/Descargas/20211117Ejemplo_MotorFisico3D/Content/sphereMaterial.png</SourceFile>
-  <SourceTime>2020-11-04T22:48:34.059065-03:00</SourceTime>
-  <DestFile>D:/Descargas/20211117Ejemplo_MotorFisico3D/Content/bin/Windows/Content/sphereMaterial.xnb</DestFile>
-  <DestTime>2021-11-18T17:35:23.9886917-03:00</DestTime>
+  <SourceFile>C:/Users/rodri/OneDrive/Documentos/GitHub/Lab2-Fisica/Content/sphereMaterial.png</SourceFile>
+  <SourceTime>2021-11-18T18:58:11.8337535-03:00</SourceTime>
+  <DestFile>C:/Users/rodri/OneDrive/Documentos/GitHub/Lab2-Fisica/Content/bin/Windows/Content/sphereMaterial.xnb</DestFile>
+  <DestTime>2021-11-18T19:16:35.5614811-03:00</DestTime>
   <Importer>TextureImporter</Importer>
-  <ImporterTime>2020-08-10T12:17:54-04:00</ImporterTime>
+  <ImporterTime>2020-08-10T16:17:54-04:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
-  <ProcessorTime>2020-08-10T12:17:54-04:00</ProcessorTime>
+  <ProcessorTime>2020-08-10T16:17:54-04:00</ProcessorTime>
   <Parameters>
     <Key>ColorKeyColor</Key>
     <Value>255,0,255,255</Value>
